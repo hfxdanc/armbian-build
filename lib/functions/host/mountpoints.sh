@@ -12,7 +12,7 @@ function prepare_armbian_mountpoints_description_dict() {
 	# bash dicts do NOT keep their insertion order, instead "hash order", which is a bit better than random for our purposes.
 	# keep an array with the correct order, unfortunately
 	declare -g -a ARMBIAN_MOUNTPOINTS_ARRAY=(
-		".tmp"
+		"${WORKDIR_BASE_TMP}"
 		"output" "output/images" "output/debs" "output/logs"
 		"cache"
 		"cache/git-bare"
@@ -29,7 +29,7 @@ function prepare_armbian_mountpoints_description_dict() {
 	)
 
 	declare -A -g ARMBIAN_MOUNTPOINTS_DESC_DICT=(
-		[".tmp"]="docker_kind_linux=anonymous docker_kind_darwin=anonymous" # tmpfs, discard, anonymous; whatever you wanna call  it. It just needs to be 100% local to the container, and there's very little value in being able to look at it from the host.
+		["${WORKDIR_BASE_TMP}"]="docker_kind_linux=anonymous docker_kind_darwin=anonymous" # tmpfs, discard, anonymous; whatever you wanna call  it. It just needs to be 100% local to the container, and there's very little value in being able to look at it from the host.
 		["output"]="docker_kind_linux=bind docker_kind_darwin=bind"         # catch-all output. specific subdirs are mounted below. it's a bind mount by default on both Linux and Darwin.
 		["output/images"]="docker_kind_linux=bind docker_kind_darwin=bind"  # 99% of users want this as the result of their build, no matter if it's slow or not. bind on both.
 		["output/debs"]="docker_kind_linux=bind docker_kind_darwin=bind"    # generated output .deb files. most people are interested in this, to update kernels or dtbs after initial build. bind on both Linux and Darwin.
