@@ -183,7 +183,7 @@ function docker_cli_prepare() {
 	display_alert "Docker Server Hostname" "${DOCKER_SERVER_NAME_HOST}" "debug"
 
 	# Gymnastics: under Darwin, Docker Desktop and Rancher Desktop in dockerd mode behave differently.
-	declare -g DOCKER_SERVER_REQUIRES_LOOP_HACKS=yes DOCKER_SERVER_USE_STATIC_LOOPS=no
+    declare -g DOCKER_SERVER_REQUIRES_LOOP_HACKS="${DOCKER_SERVER_REQUIRES_LOOP_HACKS:-"yes"}" DOCKER_SERVER_USE_STATIC_LOOPS=no
 	if [[ "${DOCKER_ARMBIAN_HOST_OS_UNAME}" == "Darwin" ]]; then
 		case "${DOCKER_SERVER_NAME_HOST}" in
 			lima-rancher-desktop)
