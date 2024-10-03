@@ -106,7 +106,7 @@ function cli_entrypoint() {
 	display_alert "Build UUID:" "${ARMBIAN_BUILD_UUID}" "debug"
 
 	# Super-global variables, used everywhere. The directories are NOT _created_ here, since this very early stage. They are all readonly, for sanity.
-	declare -g -r WORKDIR_BASE_TMP="${SRC}/.tmp" # a.k.a. ".tmp" dir. it is a shared base dir for all builds, but each build gets its own WORKDIR/TMPDIR.
+    declare -g -r WORKDIR_BASE_TMP="${WORKDIR_BASE_TMP:-"${SRC}/.tmp"}" # a.k.a. ".tmp" dir. it is a shared base dir for all builds, but each build gets its own WORKDIR/TMPDIR.
 
 	declare -g -r WORKDIR="${WORKDIR_BASE_TMP}/work-${ARMBIAN_BUILD_UUID}"                         # WORKDIR at this stage. It will become TMPDIR later. It has special significance to `mktemp` and others!
 	declare -g -r LOGDIR="${WORKDIR_BASE_TMP}/logs-${ARMBIAN_BUILD_UUID}"                          # Will be initialized very soon, literally, below.
