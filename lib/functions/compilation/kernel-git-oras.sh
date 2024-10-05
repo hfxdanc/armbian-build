@@ -214,7 +214,7 @@ function kernel_prepare_bare_repo_from_oras_gitball() {
 		# Just extract the tar_file into the "${kernel_git_bare_tree}" directory, no further work needed.
 		run_host_command_logged mkdir -p "${kernel_git_bare_tree}"
 		# @TODO chance of a pv thingy here?
-		run_host_command_logged tar -xf "${linux_kernel_clone_tar_file}" -C "${kernel_git_bare_tree}"
+        run_host_command_logged tar --no-same-owner -xf "${linux_kernel_clone_tar_file}" -C "${kernel_git_bare_tree}"
 
 		wait_for_disk_sync "after Kernel git extraction"
 

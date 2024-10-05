@@ -56,7 +56,9 @@ function cli_docker_run() {
 
 	LOG_SECTION="docker_cli_prepare_launch" do_with_logging docker_cli_prepare_launch
 
-	ARMBIAN_CLI_RELAUNCH_PARAMS+=(["SET_OWNER_TO_UID"]="${EUID}")                 # fix the owner of files to our UID
+	if [[ "${DOCKER_SERVER_VERSION}" != "" ]]; then
+        ARMBIAN_CLI_RELAUNCH_PARAMS+=(["SET_OWNER_TO_UID"]="${EUID}")             # fix the owner of files to our UID
+    fi
 	ARMBIAN_CLI_RELAUNCH_PARAMS+=(["ARMBIAN_BUILD_UUID"]="${ARMBIAN_BUILD_UUID}") # pass down our uuid to the docker instance
 	ARMBIAN_CLI_RELAUNCH_PARAMS+=(["SKIP_LOG_ARCHIVE"]="yes")                     # launched docker instance will not cleanup logs.
 

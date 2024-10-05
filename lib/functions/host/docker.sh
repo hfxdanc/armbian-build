@@ -577,7 +577,11 @@ function docker_cli_launch() {
 	# The amount of privileges and capabilities given is a bare minimum needed for losetup to work
 	if [[ ! -e /dev/loop0 ]]; then
 		display_alert "Running losetup in a temporary container" "because no loop devices exist" "info"
-		run_host_command_logged docker run --rm --privileged --cap-add=MKNOD "${DOCKER_ARMBIAN_INITIAL_IMAGE_TAG}" /usr/sbin/losetup -f
+        if [[ "${DOCKER_SERVER_VERSION}" != "" ]]; then
+    		run_host_command_logged docker run --rm --privileged --cap-add=MKNOD "${DOCKER_ARMBIAN_INITIAL_IMAGE_TAG}" /usr/sbin/losetup -f
+        else
+            run_host_command_logged podman run --rm --privileged --cap-add=MKNOD -device=/dev/loop-control:/dev/loop-control:rwm "${DOCKER_ARMBIAN_INITIAL_IMAGE_TAG}" /usr/sbin/losetup -f
+        fi
 	fi
 
 	display_alert "-----------------Relaunching in Docker after ${SECONDS}s------------------" "here comes the 🐳" "info"

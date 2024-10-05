@@ -233,7 +233,9 @@ function cli_standard_relaunch_docker_or_sudo() {
 		display_alert "Already running as root" "great, running '${ARMBIAN_COMMAND}' normally" "debug"
 	else # not root.
 		# add params when relaunched under docker or sudo
-		ARMBIAN_CLI_RELAUNCH_PARAMS+=(["SET_OWNER_TO_UID"]="${EUID}") # Pass the current UID to any further relaunchings
+        if [[ "${DOCKER_SERVER_VERSION}" != "" ]]; then
+            ARMBIAN_CLI_RELAUNCH_PARAMS+=(["SET_OWNER_TO_UID"]="${EUID}") # Pass the current UID to any further relaunchings
+        fi
 		ARMBIAN_CLI_RELAUNCH_PARAMS+=(["PREFER_DOCKER"]="no")         # make sure we don't loop forever when relaunching.
 
 		# We've a few options.
