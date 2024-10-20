@@ -579,8 +579,6 @@ function docker_cli_launch() {
 		display_alert "Running losetup in a temporary container" "because no loop devices exist" "info"
         if [[ "${DOCKER_SERVER_VERSION}" != "" ]]; then
     		run_host_command_logged docker run --rm --privileged --cap-add=MKNOD "${DOCKER_ARMBIAN_INITIAL_IMAGE_TAG}" /usr/sbin/losetup -f
-        else
-            run_host_command_logged podman run --rm --privileged --cap-add=MKNOD -device=/dev/loop-control:/dev/loop-control:rwm "${DOCKER_ARMBIAN_INITIAL_IMAGE_TAG}" /usr/sbin/losetup -f
         fi
 	fi
 
